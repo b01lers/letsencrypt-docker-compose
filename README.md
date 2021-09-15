@@ -51,7 +51,7 @@ The directories and files:
 To adapt the example to your domain names you need to change only `config.env`:
 
 ```properties
-DOMAINS=test1.devcomanda.com test2.devcomanda.com
+DOMAIN=test1.devcomanda.com test2.devcomanda.com
 CERTBOT_EMAILS=info@devcomanda.com info@devcomanda.com
 CERTBOT_TEST_CERT=1
 CERTBOT_RSA_KEY_SIZE=4096
@@ -59,7 +59,7 @@ CERTBOT_RSA_KEY_SIZE=4096
 
 Configuration parameters:
 
-* `DOMAINS` - a space separated list of domains to manage certificates for
+* `DOMAIN` - a space separated list of domains to manage certificates for
 * `CERTBOT_EMAILS` - a space separated list of email for corresponding domains. If not specified, certificates will be obtained with `--register-unsafely-without-email`
 * `CERTBOT_TEST_CERT` - use Let's Encrypt staging server (`--test-cert`)
 
@@ -85,7 +85,7 @@ For all domain names configure DNS A records to point to a server where Docker c
 Specify you domain names and contact emails for these domains in the `config.env`:
 
 ```properties
-DOMAINS=test1.devcomanda.com test2.devcomanda.com
+DOMAIN=test1.devcomanda.com test2.devcomanda.com
 CERTBOT_EMAILS=info@devcomanda.com info@devcomanda.com
 ```
 

@@ -4,8 +4,8 @@ set -e
 
 trap exit INT TERM
 
-if [ -z "$DOMAINS" ]; then
-  echo "DOMAINS environment variable is not set"
+if [ -z "$DOMAIN" ]; then
+  echo "DOMAIN environment variable is not set"
   exit 1;
 fi
 
@@ -18,30 +18,24 @@ if [ "$CERTBOT_TEST_CERT" != "0" ]; then
   test_cert_arg="--test-cert"
 fi
 
-domain_list=($DOMAINS)
-emails_list=($CERTBOT_EMAILS)
-for i in "${!domain_list[@]}"; do
-  domain="${domain_list[i]}"
+if [ -d "/etc/letsencrypt/live/$DOMAIN" ]; then
+echo "Let's Encrypt certificate for $DOMAIN already exists"
+continue
+fi
 
-  if [ -d "/etc/letsencrypt/live/$domain" ]; then
-    echo "Let's Encrypt certificate for $domain already exists"
-    continue
-  fi
+echo "Obtaining the certificate for $DOMAIN"
 
-  echo "Obtaining the certificate for $domain"
+if [ -z "$EMAIL" ]; then
+email_arg="--register-unsafely-without-email"
+else
+email_arg="--email $EMAIL"
+fi
 
-  if [ -z "${emails_list[i]}" ]; then
-    email_arg="--register-unsafely-without-email"
-  else
-    email_arg="--email ${emails_list[i]}"
-  fi
-
-  certbot certonly \
-    --webroot \
-    -w "/var/www/certbot/$domain" -d "$domain" \
-    $test_cert_arg \
-    $email_arg \
-    --rsa-key-size "${CERTBOT_RSA_KEY_SIZE:-4096}" \
-    --agree-tos \
-    --noninteractive || true
-done
+certbot certonly \
+--webroot \
+-w "/var/www/certbot/$DOMAIN" -d "$DOMAIN" \
+$test_cert_arg \
+$email_arg \
+--rsa-key-size "${CERTBOT_RSA_KEY_SIZE:-4096}" \
+--agree-tos \
+--noninteractive || true
