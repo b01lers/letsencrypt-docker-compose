@@ -7,7 +7,7 @@ if [ -z "$DOMAIN" ]; then
   exit 1;
 fi
 
-envsubst < /etc/nginx/default.conf.template > /etc/nginx/default.conf
+envsubst < /etc/nginx/conf.d/default.conf.template > /etc/nginx/conf.d/default.conf
 
 if [ ! -f "/etc/nginx/ssl/dummy/$DOMAIN/fullchain.pem" ]; then
 echo "Generating dummy ceritificate for $DOMAIN"

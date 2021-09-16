@@ -6,4 +6,4 @@ set -a
 
 set +a
 
-docker-compose up
+docker-compose up --build
